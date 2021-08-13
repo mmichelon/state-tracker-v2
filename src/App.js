@@ -10,14 +10,11 @@ import "firebase/firestore";
 
 // import './config/firebase-config'
 
-//google sign on functions
-import "./google-signin"
 
 //States for react
 import { useEffect, useState } from 'react';
 
 import { firebaseConfig } from "./config/firebase-config.js"
-import { functionHome } from "./home.js"
 
 import { initStatesFun, getStates, initStatesHighestLevel } from "./initstates.js"
 

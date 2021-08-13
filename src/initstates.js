@@ -3,7 +3,7 @@ export function initStatesFun (id, db) {
   // doc.data() will be undefined in this case
   console.log("No such document! Creating new entry in database");
   // Insert new record for person that doesn't already exist
-  db.collection("users").doc(id).collection("states").doc("test").set({
+  db.collection("users").doc(id).collection("states").doc("found").set({
     1 : 0,
     2 : 0,
     3 : 0,
