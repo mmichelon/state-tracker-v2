@@ -1,0 +1,8 @@
+Start docker container:
+  sudo snap start docker
+  sudo docker-compose up
+
+
+firebase install:
+  npm install firebase-tools -g
+  npm install --save firebase
