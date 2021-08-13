@@ -19,7 +19,8 @@ import { useEffect, useState } from 'react';
 import { firebaseConfig } from "./config/firebase-config.js"
 import { functionHome } from "./home.js"
 
-//
+import { initStatesFun, getStates, initStatesHighestLevel } from "./initstates.js"
+
 // // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
@@ -56,12 +57,16 @@ function App() {
   			.signInWithPopup(new firebase.auth.GoogleAuthProvider())
   			.then((userCred) => {
           console.log(userCred);
+          // console.log(userCred.additionalUserInfo.profile.id);
+          userCredGlobal = userCred;
+          console.log("Global var")
+          console.log(userCredGlobal.additionalUserInfo.profile.id);
+
   				if (userCred) {
   					setAuth(true);
   					window.localStorage.setItem('auth', 'true');
   				}
-          console.log(userCred.additionalUserInfo.profile.id);
-          userCredGlobal = userCred;
+
 
             //Add Information to Database
             // db.collection("users").doc(userCred.additionalUserInfo.profile.id).set({
@@ -74,6 +79,7 @@ function App() {
                 if (doc.exists) {
                     console.log("Document data:", doc.data());
                 } else {
+                    //Create entry in database for user
                     // doc.data() will be undefined in this case
                     console.log("No such document! Creating new entry in database");
                     // Insert new record for person that doesn't already exist
@@ -87,6 +93,9 @@ function App() {
                     .catch((error) => {
                         console.error("Error adding document: ", error);
                     });
+
+                    //Init States for user on creation
+                    initStatesFun(userCred.additionalUserInfo.profile.id, db);
                 }
             }).catch((error) => {
                 console.log("Error getting document:", error);
@@ -107,14 +116,26 @@ function App() {
         }).catch((error) => {
           // An error happened.
         })
+        // console.log(userCredGlobal);
+        // console.log(userCredGlobal.additionalUserInfo.profile.id);
       };
 
 
+      const getStatesConst = () => {
+        getStates(userCredGlobal.additionalUserInfo.profile.id, db);
+      };
+
+      const initStatesHighestLevelConst = () => {
+        initStatesHighestLevel(userCredGlobal.additionalUserInfo.profile.id, db);
+      };
   	return (
   		<div className="App">
       {auth ? (
         <div>
           <button onClick={SignOutGoogle}>Sign Out</button>
+          <button onClick={getStatesConst}>Display States</button>
+          <button onClick={initStatesHighestLevelConst}>Init High Level States</button>
+
         </div>
       ):(
         <button onClick={loginWithGoogle}>Login with Google</button>
