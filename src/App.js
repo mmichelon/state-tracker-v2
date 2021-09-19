@@ -18,6 +18,12 @@ import { firebaseConfig } from "./config/firebase-config.js"
 
 import { initStatesFun, getStates, initStatesHighestLevel } from "./initstates.js"
 
+
+// JQuery
+import $ from "jquery";
+// const $ = require( "jquery" )( window );
+
+
 // // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
@@ -119,19 +125,26 @@ function App() {
 
 
       const getStatesConst = () => {
-        getStates(userCredGlobal.additionalUserInfo.profile.id, db);
+        // getStates(userCredGlobal.additionalUserInfo.profile.id, db);
+        // Try to display data to console
+        console.log("Display User data:", getStates(userCredGlobal.additionalUserInfo.profile.id, db));
       };
 
       const initStatesHighestLevelConst = () => {
         initStatesHighestLevel(userCredGlobal.additionalUserInfo.profile.id, db);
       };
+
+
   	return (
   		<div className="App">
       {auth ? (
         <div>
-          <button onClick={SignOutGoogle}>Sign Out</button>
-          <button onClick={getStatesConst}>Display States</button>
-          <button onClick={initStatesHighestLevelConst}>Init High Level States</button>
+        <h1 id="arrayMessage">State Tracker V2</h1>
+          <div>
+            <button onClick={SignOutGoogle}>Sign Out</button>
+            <button onClick={getStatesConst}>Display States</button>
+            <button onClick={initStatesHighestLevelConst}>Init High Level States</button>
+          </div>
 
         </div>
       ):(
